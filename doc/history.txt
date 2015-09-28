@@ -1,0 +1,180 @@
+2015.9.23 --张浩然
+1.添加了策略元素模板的单元测试部分。
+2.添加了策略元素模板的LSDK_1020的编译框架。
+总结下目前的框架结构如下：
+|- app_project
+	|- build
+		|- app_build
+			|- CMakeLists
+				|- LSDK_1020
+					|- CMakeLists.txt
+				|- x86
+					|- CMakeLists.txt
+			|- binary
+				|- LSDK_1020
+					|- bin
+						|- app
+					|- lib
+						|- libipc_interface.so
+				|- x86
+					|- bin
+						|- app
+					|- lib
+						|- libipc_interface.so
+			|- build.sh
+			|- buildtmp
+		|- strategy_matrix_build
+			|- CMakeLists
+				|- LSDK_1020
+					|- CMakeLists.txt
+				|- x86
+					|- CMakeLists.txt
+			|- binary
+				|- strategy_mode
+					|- strategy_mode_a
+						|- LSDK_1020
+							|- lib
+								|- libstrategy_mode_a.so
+						|- x86
+							|- lib
+								|- libstrategy_mode_a.so
+			|- build.sh
+			|- buildtmp
+	|- doc
+		|- history.txt
+	|- README
+	|- source
+		|- app
+			|- CMakeLists.txt
+			|- README
+			|- doc
+			|- lib
+				|- CMakeLists.txt
+				|- ipc_interface.cpp
+				|- ipc_interface.h
+			|- src
+				|- CMakeLists.txt
+				|- main.cpp
+			|- utest
+				|- CMakeLists.txt
+				|- utest.cpp
+				|- utest_main.cpp
+		|- gtest_src
+			|- gtest
+				|- gtest-all.cc
+				|- gtest.h
+		|- strategy_matrix
+			|- strategy_mode
+				|- strategy_mode_a
+					|- CMakeLists.txt
+					|- doc
+					|- src
+						|- CMakeLists.txt
+						|- strategy_mode_a.cpp
+						|- strategy_mode_a.h
+					|- utest
+						|- CMakeLists.txt
+						|- utest.cpp
+						|- utest_main.cpp
+
+2015.9.22 第二次修改 --张浩然
+1.在source/strategy_matrix路径下添加了策略矩阵的模板，为source/strategy_matrix/strategy_mode/strategy_mode_a
+	后面添加策略时，策略矩阵的列表示为第一级子目录，这里是strategy_mode，行表示为第二级子目录，后缀为_a这样，下划线+字母
+	在strategy_mode_a/src中添加了策略元素的一个实现模板
+2.build目录下面细分为app_build和strategy_matrix_build两个目录，分别用来编译app的主工程和策略矩阵工程。
+3.strategy_matrix_build目录下添加编译环境，使用build.sh进行编译。使用方法：
+	./build.sh [architecture] <matrix_element>
+		architecture:		表示平台名称，需要在build/CMakeLists目录下有对应的目录，并且里面有对应平台的顶层CMakeLists.txt
+		matrix_element:	表示策略矩阵中的一个元素，是一个source/strategy_matrix/<matrix_row>/下的一个路径名。
+	这里对source/strategy_matrix策略矩阵的组织形式做个简单介绍，以目前的策略元素模板为例：
+	|- strategy_matrix
+		|- strategy_mode			# 策略矩阵的列路径
+			|- strategy_mode_a		# 策略矩阵中的元素路径
+	上面build.sh中带入的matrix_element参数就是strategy_mode_a代表的策略矩阵元素
+
+2015.9.22 --张浩然
+1.修改了目录结构，工程主目录下添加了doc路径，将history.txt移动到该路径，用以说明整个工程的变动情况
+2.添加了LSDK_1020平台的编译选项
+3.修改了build/build.sh，使其可以用参数决定编译平台，使用方法为：
+	build.sh [architecture]
+	其中architecture为平台名称，需要在build/CMakeLists目录下有对应的目录，并且里面有对应平台的顶层CMakeLists.txt，其编写方法可参考
+	LSDK_1020目录下的CMakeList.txt编写。
+	architecture参数默认为x86
+
+2015.9.21 第二次修改 --张浩然
+重新组织了build/binary下的组织形式，不再以debug，release分类，而以硬件平台名称分类，方便与build/CMakeLists路径下的文件对应。
+
+
+
+2015.9.21 --张浩然
+采用hello的代码初步搭建了一个app主工程的开发环境，路径结构如下：
+|- project
+	|- build
+		|- CMakeLists 
+			|- x86
+				|- CMakeLists.txt
+		|- binary
+			|- debug
+				|- bin
+				|- lib
+				|- utest
+			|- release
+				|- bin
+				|- release
+			|- buildtmp
+		|- buildtmp
+		|- build.sh
+	|- source
+		|- app
+			|- CMakeLists.txt
+			|- README
+			|- doc
+				|- history.txt
+			|- lib
+				|- CMakeLists.txt
+				|- ipc_interface.cpp
+				|- ipc_interface.h
+			|- src
+				|- CMakeLists.txt
+				|- main.cpp
+			|- utest
+				|- CMakeLists.txt
+				|- utest.cpp
+				|- utest_main.cpp
+		|- gtest_src
+			|- gtest
+				|- gtest-all.cc
+				|- gtest.h
+		|- strategy_matrix
+说明：
+build目录用于版本配置与编译，以及存放编译过程中的中间和最终文件，可在此目录进行配置以及编译
+
+source用于存放工程代码，发布时应提交该目录
+
+build/CMakeLists目录用于存放不同平台的环境下的顶层CMakeLists.txt文件，目前只做了一个x86平台的。该文件在执行./build.sh时会拷贝进
+source/app，替换顶层CMakeLists.txt，从而做到从容而便捷地更换硬件平台。
+
+build/binary路径用于存放编译后的可执行文件，目前的工程编译后存放在build/binary/debug下，bin,lib,utest分别存放app可执行文件，
+库文件和单元测试可执行文件。后来想了下，不按照debug/release分，而按照平台划分应该更合理些，之后修改这里。
+
+build/buildtmp用于存放编译过程中的临时文件，无需进入。
+
+build/build.sh用于执行编译，目前只提供了编译x86平台的功能，以后开发中要添加执行选项，进行特殊化配置，比如选择硬件平台等。
+
+source/app路径下是app主代码目录
+
+README在发布时要填写最简单的使用方式。
+
+doc目录下存放说明文档，目前只有一个history.txt，用于罗列修改时间、修改人以及修改项目，后面要制定必须填写的文档项
+
+lib目录是公用库的路径，比如这里有个ipc_interface，用于为app中所有线程提供与数据库交互的get/set方法，编译后会产生一个动态链接库
+libipc_interface.so。
+
+src目录是app主线程的代码目录，编译后生成app
+
+utest是单元测试工程目录，utest_main.cpp已经写好了最基本的单元测试主代码，utest.cpp已经写好了一条最简单的测试，后面要编写单元测试代码
+只需按照utest.cpp的形式增加测试条目即可。当然，你得有一点点google test的知识。
+
+source/gtest_src目录是google test的代码目录，该目录不用动。
+
+source/strage_matrix是策略矩阵目录，这部分后面会增加模板，用于建立子策略的动态库工程。

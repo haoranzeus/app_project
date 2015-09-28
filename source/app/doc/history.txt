@@ -1,0 +1,72 @@
+2015.9.21 --张浩然
+采用hello的代码初步搭建了一个app主工程的开发环境，路径结构如下：
+|- project
+	|- build
+		|- CMakeLists 
+			|- x86
+				|- CMakeLists.txt
+		|- binary
+			|- debug
+				|- bin
+				|- lib
+				|- utest
+			|- release
+				|- bin
+				|- release
+			|- buildtmp
+		|- buildtmp
+		|- build.sh
+	|- source
+		|- app
+			|- CMakeLists.txt
+			|- README
+			|- doc
+				|- history.txt
+			|- lib
+				|- CMakeLists.txt
+				|- ipc_interface.cpp
+				|- ipc_interface.h
+			|- src
+				|- CMakeLists.txt
+				|- main.cpp
+			|- utest
+				|- CMakeLists.txt
+				|- utest.cpp
+				|- utest_main.cpp
+		|- gtest_src
+			|- gtest
+				|- gtest-all.cc
+				|- gtest.h
+		|- strategy_matrix
+说明：
+build目录用于版本配置与编译，以及存放编译过程中的中间和最终文件，可在此目录进行配置以及编译
+
+source用于存放工程代码，发布时应提交该目录
+
+build/CMakeLists目录用于存放不同平台的环境下的顶层CMakeLists.txt文件，目前只做了一个x86平台的。该文件在执行./build.sh时会拷贝进
+source/app，替换顶层CMakeLists.txt，从而做到从容而便捷地更换硬件平台。
+
+build/binary路径用于存放编译后的可执行文件，目前的工程编译后存放在build/binary/debug下，bin,lib,utest分别存放app可执行文件，
+库文件和单元测试可执行文件。后来想了下，不按照debug/release分，而按照平台划分应该更合理些，之后修改这里。
+
+build/buildtmp用于存放编译过程中的临时文件，无需进入。
+
+build/build.sh用于执行编译，目前只提供了编译x86平台的功能，以后开发中要添加执行选项，进行特殊化配置，比如选择硬件平台等。
+
+source/app路径下是app主代码目录
+
+README在发布时要填写最简单的使用方式。
+
+doc目录下存放说明文档，目前只有一个history.txt，用于罗列修改时间、修改人以及修改项目，后面要制定必须填写的文档项
+
+lib目录是公用库的路径，比如这里有个ipc_interface，用于为app中所有线程提供与数据库交互的get/set方法，编译后会产生一个动态链接库
+libipc_interface.so。
+
+src目录是app主线程的代码目录，编译后生成app
+
+utest是单元测试工程目录，utest_main.cpp已经写好了最基本的单元测试主代码，utest.cpp已经写好了一条最简单的测试，后面要编写单元测试代码
+只需按照utest.cpp的形式增加测试条目即可。当然，你得有一点点google test的知识。
+
+source/gtest_src目录是google test的代码目录，该目录不用动。
+
+source/strage_matrix是策略矩阵目录，这部分后面会增加模板，用于建立子策略的动态库工程。

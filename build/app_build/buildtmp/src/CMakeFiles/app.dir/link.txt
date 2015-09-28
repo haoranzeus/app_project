@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/app.dir/main.cpp.o  -o app -rdynamic ../lib/libipc_interface.so -Wl,-rpath,/home/haoran/work/svnpath/vm_svnpath/app_project/build/app_build/buildtmp/lib: 

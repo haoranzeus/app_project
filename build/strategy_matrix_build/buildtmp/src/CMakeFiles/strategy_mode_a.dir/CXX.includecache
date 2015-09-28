@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/haoran/work/svnpath/vm_svnpath/app_project/source/strategy_matrix/strategy_mode/strategy_mode_a/../../../app/lib/ipc_interface.h
+
+/home/haoran/work/svnpath/vm_svnpath/app_project/source/strategy_matrix/strategy_mode/strategy_mode_a/src/strategy_mode_a.cpp
+iostream
+-
+ipc_interface.h
+/home/haoran/work/svnpath/vm_svnpath/app_project/source/strategy_matrix/strategy_mode/strategy_mode_a/src/ipc_interface.h
+

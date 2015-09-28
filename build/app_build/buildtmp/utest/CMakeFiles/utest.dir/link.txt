@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/utest.dir/utest_main.cpp.o CMakeFiles/utest.dir/utest.cpp.o CMakeFiles/utest.dir/home/haoran/work/svnpath/vm_svnpath/app_project/source/gtest_src/gtest/gtest-all.cc.o  -o utest -rdynamic ../lib/libipc_interface.so -lpthread -Wl,-rpath,/home/haoran/work/svnpath/vm_svnpath/app_project/build/app_build/buildtmp/lib: 
