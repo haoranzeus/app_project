@@ -1,3 +1,0 @@
-/home/haoran/work/svnpath/vm_svnpath/app_project/build/app_build/buildtmp/src/CMakeFiles/app.dir
-/home/haoran/work/svnpath/vm_svnpath/app_project/build/app_build/buildtmp/lib/CMakeFiles/ipc_interface.dir
-/home/haoran/work/svnpath/vm_svnpath/app_project/build/app_build/buildtmp/utest/CMakeFiles/utest.dir
