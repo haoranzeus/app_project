@@ -18,7 +18,7 @@ std::map<int32_t, int32_t> MsgQueue::_sMsgQueueIdMap;
 // description:	Create a msg queue using a key if the msg is not exist.
 // 		Get the msg queue ID of the key if the msg is exist.
 // ==============================================================================
-int32_t MsgQueue::getMsgQueId(int32_t key){
+int32_t MsgQueue::getMsgQueId(int32_t key, int32_t flag){
 	int32_t msgID = -1;
 	std::map<int32_t, int32_t>::iterator ite_pos;
 	ite_pos = MsgQueue::_sMsgQueueIdMap.find(key);

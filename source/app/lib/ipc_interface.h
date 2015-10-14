@@ -16,6 +16,7 @@ class MsgQueue {
 		static std::map<int32_t, int32_t> _sMsgQueueIdMap;	// a map for <key, ID>
 		int32_t getMsgQueId(int32_t key, int32_t flag = IPC_NOWAIT);
 	public:
-		MsgQueue(int32_t key);
+		MsgQueue(int32_t key, int32_t flage = IPC_NOWAIT);
+		~MsgQueue();
 };
 #endif
