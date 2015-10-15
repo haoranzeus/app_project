@@ -14,6 +14,47 @@ static const std::string log_level_str[] =
 
 // ==============================================================================
 // class:	Logger
+// func name:	start
+// parameters:	path -- full path name of log file. 
+// 			use "stdout" for standard output.
+// return:	true if start success, false if start error
+// Description:	start the log. Must offer a path name of a log file, or "stdout".
+// ==============================================================================
+bool Logger::start(){
+	if (_path == "stdout") {		// log to standard output
+		_file = stdout;
+		_type = LOG_CONSOLE;
+		return true;
+	}
+	
+	if (isActive())
+		return true;
+
+	_file = fopen(_path.c_str(), "w");
+	if(_file) {
+		_type = LOG_FILE;
+		return true;
+	}
+	else
+		return false;
+}
+
+// ==============================================================================
+// class:	Logger
+// func name:	stop
+// description:	stop a log. after calling this function, 
+// 		you wouldn't using this log untill call start() again.
+// ==============================================================================
+void Logger::stop(){
+	if (_file) {
+		if(_file != stdout)
+			fclose(_file);
+		_file = NULL;
+	}
+}
+
+// ==============================================================================
+// class:	Logger
 // func name:	logLevelToStr
 // parameters:	level -- log level in int formate
 // return:	log level in string formate
@@ -51,11 +92,11 @@ std::string Logger::makeLogStrFormat(std::string dataTime, int level, const Sour
 	std::string trace("");
 	if (level >= LOG_INFO || level >= _logLevel) {		// not LOG_DEBUG or >= _logLevel
 		trace += "[";
-		trace += s1.getFileName();
+		trace += si.getFileName();
 		trace += ", ";
-		trace += s1.getFuncName();
+		trace += si.getFuncName();
 		trace += ", ";
-		trace += s1.getLineNum();
+		trace += si.getLineNum();
 		trace += ", ";
 		trace += dataTime;
 		trace += "]\n";
@@ -64,7 +105,7 @@ std::string Logger::makeLogStrFormat(std::string dataTime, int level, const Sour
 		trace += "] ";
 		trace += prefix;
 		trace += msg;
-		trace += "\n"
+		trace += "\n";
 	}
 	return trace;
 }

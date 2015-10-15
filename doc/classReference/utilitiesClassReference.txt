@@ -12,9 +12,7 @@ Singleton
 
 SourceInfo
 
-Logger(virtual)
-|-	ConsoleLog
-|-	FileLog
+Logger
 
 3.CLASS DESCRIPTIONS
 
@@ -49,7 +47,7 @@ public:
 
 class Logger
 description: 
-	A virtual base class of log. The log is splited into seven levels:
+	A class of log. The log is splited into seven levels:
 		LOG_DEBUG
 		LOG_INFO
 		LOG_NOTICE
@@ -58,6 +56,7 @@ description:
 		LOG_CRITICAL
 		LOG_EMERGENCY
 	Default level is LOG_DEBUG.
+	You could change the log path by calling function setLogPath. The default path is DEFAULT_LOG_PATH.
 functions:
 public:
 	void setLogLevel(int level):
@@ -66,19 +65,25 @@ public:
 	int getLogLevel():
 		Get the log level of the object.
 
-	virtual bool start(std::string path):
-		Start the Logger object with the "path" file.
+	void setLogPath(std::string path):
+		Set the full name of log path. If path is "stdout", The log will put in standard output.
 
-	virtual bool stop():
+	std::string getLogPath():
+		Get the full name of log path. Return "stdout" if the log is put in standard output.
+
+	bool start():
+		Start the Logger object.
+
+	bool stop():
 		Stop the Logger object.
 
-	virtual bool restart():
+	bool restart():
 		Restart the Logger object.
 
-	virtual isActive():
+	isActive():
 		Return if the Logger object is active.
 
-	virtual LogType getLogType():
+	LogType getLogType():
 		Return the log type of the Logger object. the LogType is defined as a enum like:
 			enum LogType {
 				LOG_CONSOLE = 0;
@@ -86,7 +91,7 @@ public:
 				LOG_SYSTEM
 			};
 
-	virtual void output(std::string dataTime, int level, const SourceInfo &si, std::string prefix, std::string msg):
+	void output(std::string dataTime, int level, const SourceInfo &si, std::string prefix, std::string msg):
 		Format output the log message. 
 		parameters:
 			dataTime - string of data and time.

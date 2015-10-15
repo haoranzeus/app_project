@@ -1,6 +1,7 @@
 /********************************************************************************
 FileName:	utest_source_info.cpp
 Version:	1.0
+Author:		zhanghaoran
 Date:		2015.10.14
 Description:	unit test for source_info.h
 ********************************************************************************/
@@ -34,7 +35,7 @@ TEST_F(SourceInfoTest, Constructors){
 
 	// test s3
 	EXPECT_TRUE(s3.getFileName().find("utest_source_info.cpp") != std::string::npos);
-	EXPECT_EQ(11, s3.getLineNum());
+	EXPECT_EQ(18, s3.getLineNum());
 	EXPECT_EQ("SetUp", s3.getFuncName());
 }
 
