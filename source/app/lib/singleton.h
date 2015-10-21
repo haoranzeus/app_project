@@ -12,7 +12,7 @@ namespace Z
 	template<class T>
 		class Singleton{
 			public:
-				static T* instace(){
+				static T* instance(){
 					static T This;
 					return &This;
 				}

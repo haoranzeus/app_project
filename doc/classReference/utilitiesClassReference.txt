@@ -80,13 +80,13 @@ public:
 	bool restart():
 		Restart the Logger object.
 
-	isActive():
-		Return if the Logger object is active.
+	bool isActive():
+		Return true if the Logger object is active.
 
 	LogType getLogType():
-		Return the log type of the Logger object. the LogType is defined as a enum like:
+		Return the log type of the Logger object. the LogType is defined as an enum like:
 			enum LogType {
-				LOG_CONSOLE = 0;
+				LOG_CONSOLE = 0,
 				LOG_FILE,
 				LOG_SYSTEM
 			};
@@ -99,7 +99,7 @@ public:
 			si - source information. SourceInfo is a class to express informations such as file name, line number and function name.
 
 	static std::string logLevelToString(int level):
-		Translate a int format log level to string format.
+		Translate an int format log level to string format.
 
 	static int logStrToLevel(std::string strlog):
 		Translate a string format log level to int format.

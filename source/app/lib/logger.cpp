@@ -13,12 +13,49 @@ static const std::string log_level_str[] =
 {"DEBUG", "INFO", "NOTICE", "WARNING", "ERROR", "CRITICAL", "EMERENCY", ""};
 
 // ==============================================================================
+// func name:	getLocalTimeStr()
+// return:	string of the time right now.
+// ==============================================================================
+std::string getLocalTimeStr(){
+	time_t t = time(0);
+	char tmp[64];
+	strftime(tmp, sizeof(tmp), "%Y-%m-%d %A %X", localtime(&t));
+	return std::string(tmp);
+}
+
+// ==============================================================================
+// class:	Logger
+// func name:	~Logger
+// Description:	destructor. close open files.
+// ==============================================================================
+Logger::~Logger(){
+	stop();
+}
+
+// ==============================================================================
+// class:	Logger
+// func name:	setLogPath
+// parameters:	path -- a string for the full name of log file.
+// 			use "stdout" for standard output.
+// return:	true if set success. false if set fault.
+// Description:	set the log path. Must offer a path name of log, or a "stdout".
+// 		before calling it, you should call the stop() first,
+// 		because we can't change the path when the log is running.
+// ==============================================================================
+bool Logger::setLogPath(std::string path){
+	if (isActive())
+		return false;
+	else {
+		_path = path;
+		return true;
+	}
+}
+
+// ==============================================================================
 // class:	Logger
 // func name:	start
-// parameters:	path -- full path name of log file. 
-// 			use "stdout" for standard output.
 // return:	true if start success, false if start error
-// Description:	start the log. Must offer a path name of a log file, or "stdout".
+// Description:	start the log. 
 // ==============================================================================
 bool Logger::start(){
 	if (_path == "stdout") {		// log to standard output
@@ -52,6 +89,42 @@ void Logger::stop(){
 		_file = NULL;
 	}
 }
+
+// ==============================================================================
+// class:	Logger
+// func name:	output
+// parameters:	level -- log level in int format
+// 		si -- a reference of source information
+// 		prefix -- prefix of a piece of log message
+// 		msg -- a string of the log message
+// return:	true if success. false if something wrong.
+// Description:	output a piece of log message.
+// ==============================================================================
+bool Logger::output(const SourceInfo &si, std::string prefix, \
+			std::string msg, int level){
+	if (!isActive())
+		return false;
+	//if (_file == "stdout")
+	//	ConsoleColor c(level);
+	std:: string dataTime = getLocalTimeStr();
+	std::string strTrace = makeLogStrFormat(dataTime, level, si, prefix, msg);
+	if (fprintf(_file, "%s", strTrace.c_str()) > 0)
+		fflush(_file);
+	return true;
+}
+
+// ==============================================================================
+// class:	Logger
+// func name:	output
+// parameters:	si -- a reference of source information
+// 		prefix -- prefix of a piece of log message
+// 		msg -- a string of the log message
+// Description:	a reload for output, use default log level
+// ==============================================================================
+bool Logger::output(const SourceInfo &si, std::string prefix, std::string msg){
+	return output(si, prefix, msg, _logLevel);
+}
+
 
 // ==============================================================================
 // class:	Logger

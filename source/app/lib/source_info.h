@@ -9,6 +9,8 @@ Description:	Source file info class
 #include <string>
 #include <sys/types.h>
 
+#define SOURCE_INFO Z::SourceInfo(__FILE__, __LINE__, __FUNCTION__)
+
 namespace Z
 {
 
