@@ -14,3 +14,16 @@ TEST(LoggerCtrlTest, initialize){
 	EXPECT_EQ("/var/log/app_log.log", LoggerCtrl::getPublicLogPath());
 
 }
+
+TEST(LoggerCtrlTest, writelog){
+	// you will see two piece of messages in default public log path(/var/log/app_log.log)
+	// after this test
+	EXPECT_TRUE(LoggerCtrl::writePublicLog(SOURCE_INFO, "write info log"));
+	EXPECT_TRUE(LoggerCtrl::writePublicLog(SOURCE_INFO, "write error log", LOG_ERROR));
+}
+
+TEST(LoggerCtrlTest, changeLogPath){
+	EXPECT_TRUE(LoggerCtrl::setPublicLogPath("stdout"));	// change public log to conscle	
+	EXPECT_EQ("stdout", LoggerCtrl::getPublicLogPath());
+	EXPECT_TRUE(LoggerCtrl::writePublicLog(SOURCE_INFO, "write to console"));// you will see print in conscle
+}

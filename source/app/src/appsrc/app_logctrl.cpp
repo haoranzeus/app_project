@@ -44,9 +44,12 @@ bool LoggerCtrl::setPublicLogPath(std::string path){
 // ==============================================================================
 // class:	LoggerCtrl
 // func name:	writePublicLog
-// parameters:	msg - the log message to write in.
-// Description:	write a piece of log message into the public log file
+// parameters:	si - a reference of source info. 
+// 			We can use macro "SOURCE_INFO" in source_info.h
+// 		msg - the log message to write in.
+// 		level - log level, default is LOG_INFO
+// Description:	write a piece of log message in the public log file
 // ==============================================================================
-bool LoggerCtrl::writePublicLog(std::string msg){
-	PublicLogInstance::instance()->output()
+bool LoggerCtrl::writePublicLog(const SourceInfo &si, std::string msg, int level){
+	return PublicLogInstance::instance()->output(si, "", msg, level);
 }

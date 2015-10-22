@@ -2,11 +2,23 @@ File Name:	Utilities Class Reference
 Author:		zhanghaoran
 Date:		2015.10.14
 
-1.ABSTRACT
+===============================================================================================================
+1.INDEX
+===============================================================================================================
+1.INDEX
+2.ABSTRACT
+3.CLASSHERARCHY
+4.CLASS DESCRIPTION
+
+===============================================================================================================
+2.ABSTRACT
+===============================================================================================================
 
 a class description.
 
-2.CLASS HIERARCHY MAP
+===============================================================================================================
+3.CLASS HIERARCHY MAP
+===============================================================================================================
 
 Singleton
 
@@ -14,7 +26,11 @@ SourceInfo
 
 Logger
 
-3.CLASS DESCRIPTIONS
+LoggerCtrl
+
+===============================================================================================================
+4.CLASS DESCRIPTIONS
+===============================================================================================================
 
 template<class T> class Singleton
 description:
@@ -46,7 +62,8 @@ public:
 		Return true if the set of the object is empty. It will return true if the line number is zero.
 
 class Logger
-description: 
+description:
+	NOTICE: Generally, we should not use this class directly. Please reference class LoggerCtrl.
 	A class of log. The log is splited into seven levels:
 		LOG_DEBUG
 		LOG_INFO
@@ -112,4 +129,31 @@ private:
 			level -	log level.
 			si - source information. SourceInfo is a class to express informations such as file name, line number and function name.
 
+class LoggerCtrl
+description:
+	An interface class for handling public log. 
+
+Functions:
+public:
+	static bool init():
+		Initialize the public log. We should call this at least once in our system before using other functions in this class.
+		the public log path is "/var/log/app_log.log" by default.
+		Return true if initialize success.
+
+	static string::getPublicLogPath();
+		Get the public log path.
+
+	static bool setPublicLogPath(std::string path):
+		Set the public log path. We can use "stdout" to set the public log to conscle.
+		parameters:
+			path - log path to set.
+		Return true if set success.
+
+	static bool writePublicLog(const SourceInfo &si, std::string msg, int level = LOG_INFO):
+		write a piece of log message in the public log file.
+		parameters:
+			si - a reference of source info. We can use macro "SOURCE_INFO" in source_info.h
+			msg - the log message to write in.
+	 		level - log level, default is LOG_INFO.
+		Return true if write success.
 

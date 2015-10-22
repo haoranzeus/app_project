@@ -10,6 +10,7 @@ Description:	Some log for app process.
 #include <string>
 #include "logger.h"
 #include "singleton.h"
+#include "source_info.h"
 using namespace Z;
 
 const std::string DEFAULT_PUBLIC_LOG_PATH = "/var/log/app_log.log";
@@ -31,7 +32,7 @@ class LoggerCtrl{
 		static bool init();
 		static std::string getPublicLogPath();
 		static bool setPublicLogPath(std::string path);
-		static bool writePublicLog(std::string msg);
+		static bool writePublicLog(const SourceInfo &si, std::string msg, int level = LOG_INFO);
 };
 
 #endif

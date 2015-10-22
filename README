@@ -1,1 +1,17 @@
-Please reference doc/history.txt
+The project framework please reference doc/history.txt
+
+The usage of the fundamental class, please reference doc/classReference. 
+There is a documation in text form. And there is a html form documation.
+
+build & test
+1. Build and test app main project:
+	Enter into the path "build/app_build". Excute "./build.sh". 
+	Then, the binary files will be in "build/app_build/binary/x86".
+2. run the app main project:
+	Enter into the path "build/app_build/binary/x86/bin".
+	Excute "LD_LIBRARY_PATH=../lib ./app".
+3. run the unit test:
+	Enter into the path "build/app_build/binary/x86/utest".
+	Excute "LD_LIBRARY_PATH=../lib ./utest"
+
+
