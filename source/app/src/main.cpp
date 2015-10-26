@@ -1,12 +1,12 @@
 #include <iostream>
 #include "ipc_interface.h"
-#include "app_logctrl.h"
+#include "app_logs.h"
 int main(){
 	using namespace Z;
-	if (LoggerCtrl::init())
-		std::cout << "OK" << std::endl;
-	PUBLIC_LOG(LOG_INFO, "prefix ", "public log test2");
-	
+	//LoggerCtrl log(DebugLogInstance::instance());
+	//log.writeLog(SOURCE_INFO, "message in debug log.", LOG_DEBUG);
+	//log.setLogInstance(ConsoleLogInstance::instance());
+	//log.writeLog(SOURCE_INFO, "message in console.", LOG_WARING);
 	return 0;
 }
 

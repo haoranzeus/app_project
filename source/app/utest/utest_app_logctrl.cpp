@@ -6,24 +6,29 @@ Date:		2015.10.19
 Description:	unit test for app_logctrl.cpp
 ********************************************************************************/
 #include "gtest/gtest.h"
-#include "app_logctrl.h"
+#include "app_logs.h"
+#include "logger_ctrl.h"
 
 using namespace Z;
-TEST(LoggerCtrlTest, initialize){
-	EXPECT_TRUE(LoggerCtrl::init());
-	EXPECT_EQ("/var/log/app_log.log", LoggerCtrl::getPublicLogPath());
 
+class LoggerCtrlTest: public ::testing::Test{
+	protected:
+		virtual void SetUp() {
+		}
+
+		LoggerCtrl log;
+};
+
+TEST_F(LoggerCtrlTest, LogInstance){
+	EXPECT_EQ("stdout", log.getLogPath());
+	EXPECT_TRUE(log.setLogInstance(PublicLogInstance::instance()));
+	EXPECT_EQ("/var/log/app_public.log", log.getLogPath());
 }
 
-TEST(LoggerCtrlTest, writelog){
-	// you will see two piece of messages in default public log path(/var/log/app_log.log)
-	// after this test
-	EXPECT_TRUE(LoggerCtrl::writePublicLog(SOURCE_INFO, "write info log"));
-	EXPECT_TRUE(LoggerCtrl::writePublicLog(SOURCE_INFO, "write error log", LOG_ERROR));
+TEST_F(LoggerCtrlTest, LogWrite){
+	EXPECT_TRUE(log.setLogInstance(ConsoleLogInstance::instance()));
+	EXPECT_TRUE(log.writeLog(SOURCE_INFO, "message in console", LOG_INFO));
+	EXPECT_TRUE(log.setLogInstance(DebugLogInstance::instance()));
+	EXPECT_TRUE(log.writeLog(SOURCE_INFO, "message in Debug file", LOG_DEBUG));
 }
 
-TEST(LoggerCtrlTest, changeLogPath){
-	EXPECT_TRUE(LoggerCtrl::setPublicLogPath("stdout"));	// change public log to conscle	
-	EXPECT_EQ("stdout", LoggerCtrl::getPublicLogPath());
-	EXPECT_TRUE(LoggerCtrl::writePublicLog(SOURCE_INFO, "write to console"));// you will see print in conscle
-}

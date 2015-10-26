@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/homepage.css" />
+		<title>Public Class</title>
+	</head>
+
+	<body>
+		<h1>1. Public Class</h1>
+		<hr />
+
+		<p id="nopad">
+			The following sections describe the public classes.
+			These classes is independent. We could use them in other projects.
+		</p>
+		<hr />
+
+		<h2><a id="singleton">1.1 singleton</a></h2>
+		<h3>prototype:</h3>
+		<p>
+			template&ltclass T&gt class Singleton
+		</p>
+
+		<h3>head file:</h3>
+		<p>
+			singleton.h
+		</p>
+
+		<h3>description:</h3>
+		<p>
+			A template class to realise a singleton.
+		</p>
+
+		<h3>functions:</h3>
+		<h4>static * T instance()</h4>
+		<p>
+			Get a singleton instance of the class T. An example for class Foo:
+			Use "typedef Singleton FooInstance;" and then you can use "FooInstance::instance()" 
+			as a pointer of the class Foo singleton. 
+			For example, foo has a public function func(). 
+			You could call it like this: FooInstance::instance()->func() 
+		</p>
+		<hr />
+
+		<h2><a id="sourceinfo">1.2. SourceInfo</a></h2>
+		<h3>prototype:</h3>
+		<p>class SourceInfo</p>
+		<h3>hand file:</h3>
+		<p>source_info.h</p>
+		<h3>description:</h3>
+		<p>
+			<div id="notice">
+				NOTICE: Generally, we should not use this class directly. 
+				Please reference class <a href="#loggerctrl">LoggerCtrl</a>.
+			</div>
+			<div id="pad">A class of log. The logs is splited into seven levels:</div>
+			<div id="pad2">LOG_DEBUG</div>
+			<div id="pad2">LOG_INFO</div>
+			<div id="pad2">LOG_NOTICE</div>
+			<div id="pad2">LOG_WARNING</div>
+			<div id="pad2">LOG_ERROR</div>
+			<div id="pad2">LOG_CRITICAL</div>
+			<div id="pad2">LOG_EMERGENCY</div>
+			<div id="pad">Default level is LOG_DEBUG.</div>
+			<div id="pad">
+				You could change the log path by calling function setLogPath. 
+				The default path is DEFAULT_LOG_PATH.
+			</div>
+		</p>
+		<h3>functions:</h3>
+		<h4>void setLogLevel(int level)</h4>
+		<p>Set the log level of the object to parameter "level".</p>
+		
+		<h4>int getLogLevel()</h4>
+		<p>Get the log level of the object.</p>
+		
+		<h4>void setLogPath(std::string path)</h4>
+		<p>
+			Set the full name of log path. 
+			If path is "stdout", The log will be put in standard output.
+		</p>
+		
+		<h4>std::string getLogPath()</h4>
+		<p>Get the full name of log path. Return "stdout" if the log is put in standard output.</p>
+	
+		<h4>bool start()</h4>
+		<p>Start the Logger object.</p>
+	
+		<h4>bool stop()</h4>
+		<p>Stop the Logger object.</p>
+		
+		<h4>bool restart()</h4>
+		<p>Restart the Logger object.</p>
+	
+		<h4>bool isActive()</h4>
+		<p>Return true if the Logger object is active.</p>
+	
+		<h4>LogType getLogType()</h4>
+		<p>
+			<div id="pad">
+				Return the log type of the Logger object. 
+				The LogType is devined as an enum like:
+			</div>
+			<div id="pad2">enum LogType {</div>
+			<div id="pad3">LOG_CONSOLE = 0,</div>
+			<div id="pad3">LOG_FILE,</div>
+			<div id="pad3">LOG_SYSTEM</div>
+			<div id="pad2">};</div>
+		</p>
+
+		<h4>
+			void output(std::string dataTime, int level, const SourceInfo &si, 
+			std::string prefix, std::string msg)
+		</h4>
+		<p>
+			<div id="pad">Format output the log message.</div>
+			<div id="pad">parameters:</div>
+			<div id="pad2">dataTime - string of data and time</div>
+			<div id="pad2">level - log level.</div>
+			<div id="pad2">
+				si - source information. SourceInfo is a class to express informations such as file name, 
+				line number and function name.
+			</div>
+		</p>
+		
+		<h4>static std::string LogLevelToString(int level)</h4>
+		<p>Translate an int format log level to string format.</p>
+
+		<h4>static int logStrToLevel(std::string strlog)</h4>
+		<p>Translate a string format log level to int format.</p>
+		<hr />
+
+		<h2><a id="consolelogger">1.3. ConsoleLogger</a></h2>
+		<h3>prototype:</h3>
+		<p>class ConsoleLogger : public Logger</p>
+		<h3>head file:</h3>
+		<p>logger_ctrl.h</p>
+		<h3>description:</h3>
+		<p>	
+			<div id="pad">
+				A derived class from class Logger. It write log messages to console.
+				We defined a singleton object of it. 
+				We could use ConsoleLoggerInstance::instance() to reference the singleton object.
+			</div>
+			<div id="pad">
+				Please consult <a href="#loggerctrl">class LoggerCtrl</a> about where to use this singleton.
+			</div>
+		</p>
+		<hr />
+
+
+		<h2><a id="loggerctrl">1.4. Logger Ctrl</a></h2>
+		<h3>prototype:</h3>
+		<p>class LoggerCtrl</p>
+		<h3>head file:</h3>
+		<p>logger_ctrl.h</p>
+		<h3>description:</h3>
+		<p>An interface class for handling public log.</p>
+		<h3>functions:</h3>
+		<h4>LoggerCtrl(Logger * handleLog = ConsoleLogInstance::instance())</h4>
+		<p>
+			Constructor. Initialize a LoggerCtrl object using the pointer "handleLog".
+			We should use a logger singleton instance redefine here.
+			The singleton is ConsoleLogInstance by default which is a marco of 
+			class <a href="#consolelogger">ConsoleLogger</a> derived from class Logger.
+		</p>
+		<h4>bool setLogInstance(Logger * handleLog)</h4>
+		<p>
+			Set the log instance to "handleLog". It should be a pointer to a log singleton.
+		</p>
+		<h4>std::string getLogPath()</h4>
+		<p>
+			Get current log path. "stdout" indicate the log is write to console.
+		</p>
+		<h4>bool setLogPath(std::string path)</h4>
+		<p>
+			Set current log path. "stdout" indicate the log is wirte to console.
+		</p>
+		<h4>bool writeLog(const SourceInfo &si, std::string msg, int level = LOG_INFO)</h4>
+		<p>
+			<div id="pad">Write a piece of log message.</div>
+			<div id="pad">parameters:</div>
+			<div id="pad2">si - a reference of source info. We can use macro "SOURCE_INFO" in source_info.h</div>
+			<div id="pad2">msg - the log message to write in.</div>
+			<div id="pad2">level - log level, default is LOG_INFO.</div>
+			<div id="pad">Return true if write success.</div>
+		</p>
+
+	</body>
+</html>

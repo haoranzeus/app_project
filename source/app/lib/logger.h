@@ -64,6 +64,8 @@ class Logger {
 
 		static std::string logLevelToStr(int level);
 		static int logStrToLevel(std::string strlog);
+		virtual bool write(const SourceInfo &si, std::string msg, int level) = 0;
+
 
 	private:
 		std::string makeLogStrFormat(std::string dataTime, int level, const SourceInfo &si, \

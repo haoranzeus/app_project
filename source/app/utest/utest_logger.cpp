@@ -11,10 +11,14 @@ Description:	unit test for logger.cpp
 #define private		public
 #define protected	public
 #include "logger.h"
+#include "app_logs.h"
 #undef private
 #undef protected
 
 using namespace Z;
+
+// Logger is a virtual class, can't be instantiated. We test an derived class: PublicLogger.
+
 
 class LoggerTest: public ::testing::Test {
 	protected:
@@ -24,16 +28,15 @@ class LoggerTest: public ::testing::Test {
 			log_file.setLogPath("/tmp/test_log.log");
 		}
 
-		Logger log_console;
-		Logger log_default_file;
-		Logger log_file;
+		PublicLogger log_console;
+		PublicLogger log_default_file;
+		PublicLogger log_file;
 };
 
 TEST_F(LoggerTest, InitializeTest){
 	EXPECT_EQ("stdout", log_console.getLogPath());
 	EXPECT_EQ(LOG_ERROR, log_default_file.getLogLevel());
 	EXPECT_EQ("/tmp/test_log.log", log_file.getLogPath());
-	EXPECT_EQ(DEFAULT_LOG_PATH, log_default_file.getLogPath());
 }
 
 TEST_F(LoggerTest, IsActive){

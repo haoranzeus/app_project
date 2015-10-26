@@ -1,0 +1,14 @@
+h1 {font-size:34px;}
+h2 {font-size:26px;}
+h3 {font-size:22px;}
+h4 {font-size:18px; padding-left:2em}
+p  {font-size:18px; padding-left:2em}
+div {font-size:18px;}
+#nopad {padding-left:0em;}
+#pad {padding-left:2em;}
+#pad2 {padding-left:4em;}
+#pad3 {padding-left:6em;}
+#notice {padding-left:2em;font-weight:bold;}
+ul.disc {list-style-type:disc;}
+ul.circle {list-style-type:circle;}
+ul.square {list-style-type:square;}

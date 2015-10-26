@@ -1,0 +1,63 @@
+File Name:	APP Class Reference
+Author:		zhanghaoran
+Date:		2015.10.26
+
+===============================================================================================================
+1.INDEX
+===============================================================================================================
+1.INDEX
+2.ABSTRACT
+3.CLASS HERARCHY MAY
+4.CLASS DESCRIPTION
+
+===============================================================================================================
+2.ABSTRACE
+===============================================================================================================
+Description of app classes.
+
+===============================================================================================================
+3.CLASS HIERARCHY MAP
+===============================================================================================================
+Logger(logger.h)
+|-	ConsoleLogger(logger_ctrl.h)
+|-	PublicLogger(app_logs.h)
+|-	DebugLogger(app_logs.h)
+|-	SystemLogger(app_logs.h)
+
+===============================================================================================================
+4.CLASS DESCRIPTION
+===============================================================================================================
+class PublicLogger : public Logger
+head file:
+	app_logs.h
+description:
+	NOTICE: Generally, we should not use this class directly. Please reference class LoggerCtrl.
+		We use class LoggerCtrl to handle our logs.
+	A derived class from class Logger. This Log will write messages to public log. 
+	Default path is "/var/log/app_public.log".
+	We defined a singleton instance for this class.
+	Use PublicLogInstance::instance() to get this singleton instance.
+
+class DebugLogger : public Logger
+head file:
+	app_logs.h
+description:
+	NOTICE: Generally, we should not use this class directly. Please reference class LoggerCtrl.
+		We use class LoggerCtrl to handle our logs.
+	A derived class from class Logger. This Log will write messages to public log. 
+	Default path is "/var/log/app_debug.log".
+	We defined a singleton instance for this class.
+	Use DebugLogInstance::instance() to get this singleton instance.
+
+class SystemLogger : public Logger
+head file:
+	app_logs.h
+description:
+	NOTICE: Generally, we should not use this class directly. Please reference class LoggerCtrl.
+		We use class LoggerCtrl to handle our logs.
+	A derived class from class Logger. This Log will write messages to public log. 
+	Default path is "/var/log/app_system.log".
+	We defined a singleton instance for this class.
+	Use SystemInstance::instance() to get this singleton instance.
+
+

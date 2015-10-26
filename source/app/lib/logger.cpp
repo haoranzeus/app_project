@@ -145,7 +145,7 @@ std::string Logger::logLevelToStr(int level){
 // parameters:	strlog -- log level in string formate
 // return:	log level in int formate
 // Description:	translate log level from string formate to int formate
-// ==============================================================================
+// ==============================================================================er::logStrToLevel(std::string strlog){
 int Logger::logStrToLevel(std::string strlog){
 	int level = strlog.find(strlog);
 	return level;
@@ -169,7 +169,9 @@ std::string Logger::makeLogStrFormat(std::string dataTime, int level, const Sour
 		trace += ", ";
 		trace += si.getFuncName();
 		trace += ", ";
-		trace += si.getLineNum();
+		char strLineNum[10];
+		sprintf(strLineNum, "%d", si.getLineNum());
+		trace += strLineNum;//si.getLineNum();
 		trace += ", ";
 		trace += dataTime;
 		trace += "]\n";

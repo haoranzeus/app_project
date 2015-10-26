@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/homepage.css" />
+		<title>APP Class Reference Home Page</title>
+	</head>
+
+	<body>
+		<h1>APP Class Reference HomePage</h1>
+		<hr />
+
+		<p id="nopad">
+			The following sections describe the APP classes. They are concerned of app.
+			We could only use them in app project.
+		</p>
+		<hr />
+
+		<h2><a id="publiclogger">2.1 PublicLogger</a></h2>
+		<h3>prototype:</h3>
+		<p>class PublicLogger : public Logger</p>
+
+		<h3>head file:</h3>
+		<p>app_logs.h</p>
+
+		<h3>description:</h3>
+		<p>	
+			<div id="pad">
+				A derived class from class Logger. It write log messages to public log.
+				The path is "/var/log/app_public.log" by default.
+				We defined a singleton object of it. 
+				We could use PublicLoggerInstance::instance() to reference the singleton object.
+			</div>
+			<div id="pad">
+				Please consult <a href="publicclass.html#loggerctrl">class LoggerCtrl</a>
+			       	about where to use this singleton.
+			</div>
+		</p>
+		<hr />
+
+		<h2><a id="debuglogger">2.2 DebugLogger</a></h2>
+		<h3>prototype:</h3>
+		<p>class DebugLogger : public Logger</p>
+
+		<h3>head file:</h3>
+		<p>app_logs.h</p>
+
+		<h3>description:</h3>
+		<p>	
+			<div id="pad">
+				A derived class from class Logger. It write log messages to public log.
+				The path is "/var/log/app_debug.log" by default.
+				We defined a singleton object of it. 
+				We could use DebugLoggerInstance::instance() to reference the singleton object.
+			</div>
+			<div id="pad">
+				Please consult <a href="publicclass.html#loggerctrl">class LoggerCtrl</a>
+			       	about where to use this singleton.
+			</div>
+		</p>
+		<hr />
+
+		<h2><a id="systemlogger">2.3 SystemLogger</a></h2>
+		<h3>prototype:</h3>
+		<p>class SystemLogger : public Logger</p>
+
+		<h3>head file:</h3>
+		<p>app_logs.h</p>
+
+		<h3>description:</h3>
+		<p>	
+			<div id="pad">
+				A derived class from class Logger. It write log messages to public log.
+				The path is "/var/log/app_system.log" by default.
+				We defined a singleton object of it. 
+				We could use SystemLoggerInstance::instance() to reference the singleton object.
+			</div>
+			<div id="pad">
+				Please consult <a href="publicclass.html#loggerctrl">class LoggerCtrl</a>
+			       	about where to use this singleton.
+			</div>
+		</p>
+
+
+
+	</body>
+
+</html>

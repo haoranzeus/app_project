@@ -7,32 +7,35 @@ Date:		2015.10.14
 ===============================================================================================================
 1.INDEX
 2.ABSTRACT
-3.CLASSHERARCHY
+3.CLASS HERARCHY MAP
 4.CLASS DESCRIPTION
 
 ===============================================================================================================
 2.ABSTRACT
 ===============================================================================================================
 
-a class description.
+Description of utility classes.
 
 ===============================================================================================================
 3.CLASS HIERARCHY MAP
 ===============================================================================================================
 
-Singleton
+Singleton(singleton.h)
 
-SourceInfo
+SourceInfo(source_info.h)
 
-Logger
+Logger(logger.h)
+|-	ConsoleLogger(logger_ctrl.h)
 
-LoggerCtrl
+LoggerCtrl(logger_ctrl.h)
 
 ===============================================================================================================
 4.CLASS DESCRIPTIONS
 ===============================================================================================================
 
 template<class T> class Singleton
+head file:
+	singleton.h
 description:
 	A template class to realise a singleton.
 functions:
@@ -45,6 +48,8 @@ public:
 			FooInstance::instance()->func() 
 
 class SourceInfo
+head file:
+	source_info.h
 description:
 	A set of file name, line number and function name.
 functions:
@@ -62,8 +67,11 @@ public:
 		Return true if the set of the object is empty. It will return true if the line number is zero.
 
 class Logger
+head file:
+	logger.h
 description:
 	NOTICE: Generally, we should not use this class directly. Please reference class LoggerCtrl.
+		We use class LoggerCtrl to handle our logs.
 	A class of log. The log is splited into seven levels:
 		LOG_DEBUG
 		LOG_INFO
@@ -129,30 +137,47 @@ private:
 			level -	log level.
 			si - source information. SourceInfo is a class to express informations such as file name, line number and function name.
 
-class LoggerCtrl
+class ConsoleLogger : public Logger
+head file:
+	logger_ctrl.h
 description:
-	An interface class for handling public log. 
+	NOTICE: Generally, we should not use this class directly. Please reference class LoggerCtrl.
+		We use class LoggerCtrl to handle our logs.
+	A derived class from class Logger. This Log will write messages to console. 
+	We defined a singleton instance for this class.
+	Use ConsoleLogInstance::instance() to get this singleton instance.
+
+class LoggerCtrl
+head file:
+	logger_ctrl.h
+description:
+	An interface class for handling logs. 
 
 Functions:
 public:
-	static bool init():
-		Initialize the public log. We should call this at least once in our system before using other functions in this class.
-		the public log path is "/var/log/app_log.log" by default.
-		Return true if initialize success.
+	LoggerCtrl(Logger * handleLog = ConsoleLogInstance::instance())
+		Constructor.
+		Parameters:
+			handleLog - A pointor of a Logger object. 
+				    We need a singleton here and handle the singleton Logger object using the LoggerCtrl object.
+
+	bool setLogInstance(Logger * handleLog)
+		Change the log instance to handle. The parameter "handleLog" should be a singleton.
+		Please reference src/appsrc/app_logs.h for the singleton logs using in app.
 
 	static string::getPublicLogPath();
-		Get the public log path.
+		Get the path of the log current handling.
 
 	static bool setPublicLogPath(std::string path):
-		Set the public log path. We can use "stdout" to set the public log to conscle.
+		Set the log path of current handling. We can use "stdout" to set the log to conscle.
 		parameters:
 			path - log path to set.
 		Return true if set success.
 
 	static bool writePublicLog(const SourceInfo &si, std::string msg, int level = LOG_INFO):
-		write a piece of log message in the public log file.
+		write a piece of log message in the log current handling.
 		parameters:
-			si - a reference of source info. We can use macro "SOURCE_INFO" in source_info.h
+			si - a reference of source info. We could use macro "SOURCE_INFO" in source_info.h
 			msg - the log message to write in.
 	 		level - log level, default is LOG_INFO.
 		Return true if write success.
