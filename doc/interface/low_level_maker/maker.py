@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sys
+import os
 
 # Get a list [func name, descripiton, parameters] from a func_element string
 def get_func_dscp_para(func_element):
@@ -31,6 +32,7 @@ def get_func_dscp_para(func_element):
 # Translate a list of func_element to code module form
 # parameters:
 # func_list - the list of [func name, description, {parameters}]
+# return: a string of cpp code func.
 def formate_code_module(func_list):
 	# create annotation
 	code = "// func name:\t" + func_list[0] + "\n"
@@ -61,6 +63,52 @@ def func_element_cpp_formate(func_element, cpp_file):
 	fd = open(cpp_file, "a")
 	fd.write(func_code)
 	fd.close
+
+# Translate a list of html_element to html module form
+# parameters:
+# func_list - the list of [func name, description, {parameters}]
+# return: a html element
+def formate_html_module(func_list):
+	html = "\t\t<h1>" + func_list[0] + "</h1>\n"
+	html += "\t\t<h2>description:</h2>\n"
+	html += "\t\t<p>\n"
+	html += "\t\t\t" + func_list[1] + "\n"
+	html += "\t\t</p>\n"
+	if len(func_list) == 3:
+		html += "\t\t<h2>parameters:</h2>\n"
+		html += "\t\t<p>\n"
+		html += "\t\t\t" + func_list[2].replace('\n', '<br />\n\t\t\t') + "\n"
+		html += "\t\t</p>\n"
+	html += "\t\t<hr />\n"
+	return html
+
+# formate and write html_element to a html file
+# parameters:
+# html_element - html element string
+# html_file - destination html file to write into
+def func_element_html_formate(html_element, html_file):
+	# html head
+	html_head = "<!DOCTYPE html>\n<html>\n\t<head>\n"
+	html_head += '\t\t<link rel="stylesheet" type="text/css" href="css/interface.css" />\n'
+	html_head += "\t\t<title>test</title>\n\t<head>\n\n\t<body>\n"
+
+	# html tail
+	html_tail = "\t</body>\n</html>\n"
+
+	html_list = get_func_dscp_para(html_element)
+	if html_list == -1:
+		return -1
+	func_html = formate_html_module(html_list)
+	func_html += "\n"
+	file_size = os.stat(html_file).st_size	# get size of html_file
+	fd = open(html_file, "rw+")
+	if file_size == 0:		# if html file is empty, write html head
+		fd.write(html_head)
+	else:
+		fd.seek(-len(html_tail), 2)
+	fd.write(func_html)
+	fd.write(html_tail)
+	fd.close
 	
 # traversal a configure file to get func elements.
 # parameters:
@@ -83,6 +131,6 @@ def traversal_func_elements(conf_file, element_hand_func, dest_file):
 	fd.close()
 
 # main body
-#traversal_func_elements("demand.conf", func_element_cpp_formate, "test.cpp")
+#traversal_func_elements("demand.conf", func_element_html_formate, "my.html")
 traversal_func_elements(sys.argv[1], func_element_cpp_formate, sys.argv[2])
-
+traversal_func_elements(sys.argv[1], func_element_html_formate, sys.argv[3])
